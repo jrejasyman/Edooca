@@ -42,6 +42,7 @@ public class Conexion {
         }else{
             System.out.println("conexion denegada");
         }
+        
     }
     
 }
