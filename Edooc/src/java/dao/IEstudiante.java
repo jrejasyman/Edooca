@@ -1,17 +1,18 @@
 package dao;
 
 import java.util.List;
+import modelo.Estudiante;
 
 
 public interface IEstudiante <T> {
     
-     void Registrar (T modelos)throws Exception;
+     void Registrar (Estudiante estudiante)throws Exception;
      
-     void Modificar (T modelos)throws Exception;
+     void Modificar (Estudiante estudiante)throws Exception;
      
-     void Eliminar (T modelos) throws Exception;
+     void Eliminar (Estudiante estudiante) throws Exception;
      
-     List<T> listar (T modelos) throws Exception;
+     List<Estudiante> listarEst () throws Exception;
              
     
 }

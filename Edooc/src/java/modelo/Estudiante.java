@@ -3,7 +3,6 @@ package modelo;
 import lombok.Data;
 
 @Data
-
 public class Estudiante {
     private int idEstu;
     private String nomEstu;
