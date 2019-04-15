@@ -4,15 +4,15 @@ import java.util.List;
 import modelo.Estudiante;
 
 
-public interface IEstudiante <T> {
+public interface IEstudiante{
     
-     void Registrar (Estudiante estudiante)throws Exception;
+     void registrar (Estudiante estudiante)throws Exception;
      
-     void Modificar (Estudiante estudiante)throws Exception;
+     void modificar (Estudiante estudiante)throws Exception;
      
-     void Eliminar (Estudiante estudiante) throws Exception;
+     void eliminar (Estudiante estudiante) throws Exception;
      
-     List<Estudiante> listarEst () throws Exception;
+     List<Estudiante> listarEst() throws Exception;
              
     
 }

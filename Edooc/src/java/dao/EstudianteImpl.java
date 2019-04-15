@@ -10,10 +10,10 @@ import modelo.Estudiante;
 public class EstudianteImpl extends Conexion implements IEstudiante {
 
     @Override
-    public void Registrar(Estudiante estudiante) throws Exception {
+    public void registrar(Estudiante estudiante) throws Exception {
         String INSERT = "INSERT INTO MAESTRA.ESTUDIANTE"
                 + "(IDEST, NOMEST, APEEST, SEXEST, CELEST, DNIEST, PAREST, COREST, UBIGEO_IDUBI)"
-                + "VALUES (?,?,?,?,?,?,?,?,?)";
+                + " values (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = this.conectar().prepareStatement(INSERT);
             ps.setInt(1, estudiante.getIdEstu());
@@ -36,10 +36,10 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     }
 
     @Override
-    public void Modificar(Estudiante estudiante) throws Exception {
-        String UPDATE = "UPDATE MAESTRA.ESTUDIANTE SET NOMEST=?, APEEST=?, SEXEST=?, CELEST=?, DNIEST=?, PAREST=?, COREST=?, UBIGEO_IDUBI=? WHERE IDEST=?";
+    public void modificar(Estudiante estudiante) throws Exception {
+        String sql = "UPDATE MAESTRA.ESTUDIANTE SET NOMEST=?, APEEST=?, SEXEST=?, CELEST=?, DNIEST=?, PAREST=?, COREST=?, UBIGEO_IDUBI=? WHERE IDEST=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(UPDATE);
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
             ps.setString(1, estudiante.getNomEstu());
             ps.setString(2, estudiante.getApeEstu());
             ps.setString(3, estudiante.getSexEstu());
@@ -60,10 +60,10 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     }
 
     @Override
-    public void Eliminar(Estudiante estudiante) throws Exception {
-        String DELETE = "delete from maestra.estudiante where idest=?";
+    public void eliminar(Estudiante estudiante) throws Exception {
+        String sql = "delete from MAESTRA.ESTUDIANTE where IDEST=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(DELETE);
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
             ps.setInt(1, estudiante.getIdEstu());
             ps.executeUpdate();
             ps.close();
@@ -107,8 +107,5 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
         }
         return listado;
 
-    }
-
-    
-
+    }    
 }

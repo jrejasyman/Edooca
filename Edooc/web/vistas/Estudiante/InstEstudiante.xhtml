@@ -13,17 +13,17 @@
         <p:growl autoUpdate="true" showDetail="true"/>
         <h:form id="formIns">
             <p:panelGrid columns="4">
-                <p:outputLabel value="Codigo"/><p:inputText value="#{estudianteC.estudiante.idEstu}" maxlength="50"/>
-                <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteC.estudiante.nomEstu}" maxlength="80"/>
-                <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteC.estudiante.apeEstu}" maxlength="80"/>
-                <p:outputLabel value="Sexo"/><p:inputText value="#{estudianteC.estudiante.sexEstu}" maxlength="1"/>
-                <p:outputLabel value="Celular"/><p:inputText value="#{estudianteC.estudiante.celEstu}" maxlength="9"/>
-                <p:outputLabel value="DNI"/><p:inputText value="#{estudianteC.estudiante.dniEstu}" maxlength="8"/>
-                <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteC.estudiante.parEstu}" maxlength="25"/>
-                <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteC.estudiante.corEstu}" maxlength="50"/>
-                <p:outputLabel value="Ubigeo"/><p:inputText value="#{estudianteC.estudiante.ubiEstu}" maxlength="6"/>
+                <p:outputLabel value="Codigo"/><p:inputText value="#{estudianteCon.estudiante.idEstu}" maxlength="50"/>
+                <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteCon.estudiante.nomEstu}" maxlength="80"/>
+                <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteCon.estudiante.apeEstu}" maxlength="80"/>
+                <p:outputLabel value="Sexo"/><p:inputText value="#{estudianteCon.estudiante.sexEstu}" maxlength="1"/>
+                <p:outputLabel value="Celular"/><p:inputText value="#{estudianteCon.estudiante.celEstu}" maxlength="9"/>
+                <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
+                <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
+                <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
+                <p:outputLabel value="Ubigeo"/><p:inputText value="#{estudianteCon.estudiante.ubiEstu}" maxlength="6"/>
             </p:panelGrid>
-            <p:commandButton value="Registrar" actionListener="#{estudianteC.registrar()}"/>
+            <p:commandButton value="Registrar" actionListener="#{estudianteCon.registrar()}"/>
         </h:form>
     </h:body>
 </html>
