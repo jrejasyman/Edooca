@@ -1,14 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    
+
     <h:head>
         <title>Listar Estdiantes</title>
-        
+        <f:event type="preRenderView" listener="#{estudianteCon.listar()}"/>
     </h:head>
     <h:body>
-        
+        <p:growl autoUpdate="true" showDetail="true" id="messeges" />
+        <h:form id="form">
+            <p:dataTable value="#{estudianteCon.listadoEst}"var="lista" id="dtTable"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginator="true" rows="10" style="margin-bottom: 20px">
+                <p:column headerText="Id">
+                    <h:outputText value="#{lista.idEstu}"/>
+                </p:column>
+
+                <p:column headerText="Nombre" filterBy="#{lista.nomEstu}"filterMatchMode="contains">
+                    <h:outputText value="#{lista.nomEstu}"/>
+                </p:column> 
+                
+                <p:column headerText="Apellido">
+                    <h:outputText value="#{lista.apeEstu}"/>
+                </p:column>
+                
+                <p:column headerText="Sexo del estudiante">
+                    <h:outputText value="#{lista.sexEstu}"/>
+                </p:column>
+                
+                <p:column headerText="Celular">
+                    <h:outputText value="#{lista.celEstu}"/>
+                </p:column>
+                
+                <p:column headerText="DNI">
+                    <h:outputText value="#{lista.dniEstu}"/>
+                </p:column>
+                
+                <p:column headerText="Parentesco Familiar">                    
+                    <h:outputText value="#{lista.parEstu}"/>
+                </p:column>
+                
+                <p:column headerText="Correo Electronico">
+                    <h:outputText value="#{lista.corEstu}"/>
+                </p:column>
+                
+                <p:column headerText="Ubigeo">
+                    <h:outputText value="#{lista.ubiEstu}"/>
+                </p:column>
+                
+                <p:column>
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF"
+                    
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
     </h:body> 
 </html>
