@@ -5,7 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-<!--Prueba-->
+    <!--Prueba-->
     <h:head>
         <title>Listar Personal</title>
         <f:event type="preRenderView" listener="#{personalCon.listar()}"/>
@@ -18,51 +18,47 @@
                          paginator="true" rows="10" style="margin-bottom:20px">
 
                 <p:column headerText="Id" >
-                    <h:outputText value="#{lista.idEstu}"/>
+                    <h:outputText value="#{lista.idPer}"/>
                 </p:column>
 
-                <p:column headerText="Nombre" filterBy="#{lista.nomEstu}" filterMatchMode="contains" >
-                    <h:outputText value="#{lista.nomEstu}"/>
+                <p:column headerText="Nombre" filterBy="#{lista.nomPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.nomPer}"/>
                 </p:column>
 
                 <p:column headerText="Apellido">
-                    <h:outputText value="#{lista.apeEstu}"/>
+                    <h:outputText value="#{lista.apePer}"/>
                 </p:column>
 
-                <p:column headerText="Sexo del estudiante">
-                    <h:outputText value="#{lista.sexEstu}"/>
+                <p:column headerText="Correo">
+                    <h:outputText value="#{lista.corPer}"/>
+                </p:column>
+
+                <p:column headerText="Dni">
+                    <h:outputText value="#{lista.dniPer}"/>
+                </p:column>
+
+                <p:column headerText="Documento">
+                    <h:outputText value="#{lista.docPer}"/>
                 </p:column>
 
                 <p:column headerText="Celular">
-                    <h:outputText value="#{lista.celEstu}"/>
-                </p:column>
-
-                <p:column headerText="DNI">
-                    <h:outputText value="#{lista.dniEstu}"/>
-                </p:column>
-
-                <p:column headerText="Parentesco Familiar">                    
-                    <h:outputText value="#{lista.parEstu}"/>
-                </p:column>
-
-                <p:column headerText="Correo Electronico">
-                    <h:outputText value="#{lista.corEstu}"/>
+                    <h:outputText value="#{lista.celPer}"/>
                 </p:column>
 
                 <p:column headerText="Ubigeo">
-                    <h:outputText value="#{lista.ubiEstu}"/>
+                    <h:outputText value="#{lista.ubiPer}"/>
                 </p:column>
 
                 <p:column><!-- modifica papu-->
                     <p:commandButton icon="ui-icon-pencil"
                                      oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
-                        <f:setPropertyActionListener value="#{lista}" target="#{estudianteCon.estudiante}"/>
+                        <f:setPropertyActionListener value="#{lista}" target="#{personalCon.personal}"/>
                     </p:commandButton>   
                 </p:column> 
 
                 <p:column> <!--vamo eliminar-->
                     <p:commandButton icon="ui-icon-circle-close" update=":messages"
-                                     actionListener="#{estudianteCon.eliminar(lista)}">
+                                     actionListener="#{personalCon.eliminar(lista)}">
                         <p:confirm header="Confirmacion" message="¿Deseas eliminar?" icon="ui-icon-alert"/>
                         <p:tooltip trackMouse="true"/>                        
                     </p:commandButton>
@@ -73,7 +69,7 @@
                 </p:column>
 
                 <f:facet name="footer">
-                    En Total hay #{fn:length(estudianteCon.listadoEst)} Registro.
+                    En Total hay #{fn:length(personalCon.listadoPer)} Registro.
                 </f:facet>
             </p:dataTable>
         </h:form>
@@ -81,18 +77,17 @@
         <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
             <h:form>
                 <p:panelGrid columns="4">
-                    <p:outputLabel value="Codigo"/><p:inputText value="#{estudianteCon.estudiante.idEstu}" maxlength="50"/>
-                    <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteCon.estudiante.nomEstu}" maxlength="80"/>
-                    <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteCon.estudiante.apeEstu}" maxlength="80"/>
-                    <p:outputLabel value="Sexo"/><p:inputText value="#{estudianteCon.estudiante.sexEstu}" maxlength="1"/>
-                    <p:outputLabel value="Celular"/><p:inputText value="#{estudianteCon.estudiante.celEstu}" maxlength="9"/>
-                    <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
-                    <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
-                    <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
-                    <p:outputLabel value="Ubigeo"/><p:inputText value="#{estudianteCon.estudiante.ubiEstu}" maxlength="6"/>
+                    <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="50"/>
+                    <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="80"/>
+                    <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="80"/>
+                    <p:outputLabel value="Correo electronico"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
+                    <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8"/>
+                    <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="80"/>
+                    <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9"/>
+                    <p:outputLabel value="Ubigeo"/><p:inputText value="#{personalCon.personal.ubiPer}" maxlength="6"/>
                 </p:panelGrid>
 
-                <p:commandButton value="Actualizar" actionListener="#{estudianteCon.modificar()}"
+                <p:commandButton value="Actualizar" actionListener="#{personalCon.modificar()}"
                                  update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
                     <p:confirm header="Confirmacion" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
                     <p:tooltip trackMouse="true"/>
