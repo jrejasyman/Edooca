@@ -8,7 +8,7 @@ public class Apoderado {
     private String nomApo;
     private String apeApo;
     private String ocuApo;
-    private String dirapo;
+    private String dirApo;
     private String sexApo;
     private String dniApo;
     private String ubiApo;
