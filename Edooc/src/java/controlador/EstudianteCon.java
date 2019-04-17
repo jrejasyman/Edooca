@@ -42,9 +42,9 @@ public class EstudianteCon implements Serializable {
             throw e;            
         }
     }
-    public void eliminar() throws Exception{
+    public void eliminar(Estudiante est) throws Exception{
         try {
-            dao.eliminar(estudiante);
+            dao.eliminar(est);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Eliminado..."));                                
         } catch (Exception e) {

@@ -25,10 +25,10 @@ public class ApoderadoImpl extends Conexion implements IApoderado{
           ps.close();
         } catch (Exception e) {
             System.out.println("Error en la inserción de datos" + e.getMessage());
-        }
+        }/*
         finally {
             this.cerrar();
-            }
+            }*/
     }
 
     @Override
