@@ -68,7 +68,7 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            System.out.println("Error en l aparte de elimanr de impl" + e.getMessage());
+            System.out.println("Error en l aparte de eliminar de impl" + e.getMessage());
             throw e;
         }finally{
             this.cerrar();

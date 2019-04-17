@@ -7,21 +7,21 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
     <h:head>
-        <title>Listar Estdiantes</title>
+        <title>Listar Estudiantes</title>
         <f:event type="preRenderView" listener="#{estudianteCon.listar()}"/>
     </h:head>
     <h:body>
-        <p:growl autoUpdate="true" showDetail="true" id="messeges" />
+        <p:growl autoUpdate="true" showDetail="true" id="messages" />
         <h:form id="form">
             <p:dataTable value="#{estudianteCon.listadoEst}" var="lista" id="dtTable"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          paginator="true" rows="10" style="margin-bottom:20px">
 
-                <p:column headerText="Id">
+                <p:column headerText="Id" >
                     <h:outputText value="#{lista.idEstu}"/>
                 </p:column>
 
-                <p:column headerText="Nombre" >
+                <p:column headerText="Nombre" filterBy="#{lista.nomEstu}" filterMatchMode="contains" >
                     <h:outputText value="#{lista.nomEstu}"/>
                 </p:column>
 
@@ -53,9 +53,57 @@
                     <h:outputText value="#{lista.ubiEstu}"/>
                 </p:column>
 
+                <p:column><!-- modifica papu-->
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
+                        <f:setPropertyActionListener value="#{lista}" target="#{estudianteCon.estudiante}"/>
+                    </p:commandButton>   
+                </p:column> 
 
+                <p:column> <!--vamo eliminar-->
+                    <p:commandButton icon="ui-icon-circle-close" update=":messages"
+                                     actionListener="#{estudianteCon.eliminar(lista)}">
+                        <p:confirm header="Confirmacion" message="¿Deseas eliminar?" icon="ui-icon-alert"/>
+                        <p:tooltip trackMouse="true"/>                        
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>                                                
+                </p:column>
+
+                <f:facet name="footer">
+                    En Total hay #{fn:length(estudianteCon.listadoEst)} Registro.
+                </f:facet>
             </p:dataTable>
-
         </h:form>
+
+        <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
+            <h:form>
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="Codigo"/><p:inputText value="#{estudianteCon.estudiante.idEstu}" maxlength="50"/>
+                    <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteCon.estudiante.nomEstu}" maxlength="80"/>
+                    <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteCon.estudiante.apeEstu}" maxlength="80"/>
+                    <p:outputLabel value="Sexo"/><p:inputText value="#{estudianteCon.estudiante.sexEstu}" maxlength="1"/>
+                    <p:outputLabel value="Celular"/><p:inputText value="#{estudianteCon.estudiante.celEstu}" maxlength="9"/>
+                    <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
+                    <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
+                    <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
+                    <p:outputLabel value="Ubigeo"/><p:inputText value="#{estudianteCon.estudiante.ubiEstu}" maxlength="6"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Actualizar" actionListener="#{estudianteCon.modificar()}"
+                                 update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
+                    <p:confirm header="Confirmacion" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                    <p:tooltip trackMouse="true"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+            </h:form>
+        </p:dialog>
     </h:body> 
 </html>
