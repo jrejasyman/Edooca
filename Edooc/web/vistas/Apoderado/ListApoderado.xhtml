@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <!--Prueba-->
+   <h:head>
+        <title>Listar Apoderado</title>
+        <f:event type="preRenderView" listener="#{apoderadoCon.listar()}"/>
+    </h:head> 
+    
+    <h:body>
+        <p:growl autoUpdate="true" showDetail="true" id="messages" />
+        <h:form id="form">
+            <p:dataTable value="#{apoderadoCon.listadoApo}" var="lista" id="dtTable"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginator="true" rows="10" style="margin-bottom:20px">
+
+                <p:column headerText="Id" >
+                    <h:outputText value="#{lista.idApo}"/>
+                </p:column>
+
+                <p:column headerText="Nombres" filterBy="#{lista.nomApo}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.nomApo}"/>
+                </p:column>
+
+                <p:column headerText="Apellidos">
+                    <h:outputText value="#{lista.apeApo}"/>
+                </p:column>
+
+                <p:column headerText="Ocupacion">
+                    <h:outputText value="#{lista.ocuApo}"/>
+                </p:column>
+
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{lista.dirApo}"/>
+                </p:column>
+
+                <p:column headerText="Sexo">
+                    <h:outputText value="#{lista.sexApo}"/>
+                </p:column>
+
+                <p:column headerText="DNI">
+                    <h:outputText value="#{lista.dniApo}"/>
+                </p:column>
+
+                <p:column headerText="Ubigeo">
+                    <h:outputText value="#{lista.ubiApo}"/>
+                </p:column>
+
+                <p:column><!-- modificar-->
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
+                        <f:setPropertyActionListener value="#{lista}" target="#{apoderadoCon.apoderado}"/>
+                    </p:commandButton>   
+                </p:column> 
+
+                <p:column> <!--eliminar-->
+                    <p:commandButton icon="ui-icon-circle-close" update=":messages"
+                                     actionListener="#{apoderadoCon.eliminar(lista)}">
+                        <p:confirm header="Confirmacion" message="¿Desea eliminar?" icon="ui-icon-alert"/>
+                        <p:tooltip trackMouse="true"/>                        
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>                                                
+                </p:column>
+
+                <f:facet name="footer">
+                    En Total hay #{fn:length(apoderadoCon.listadoApo)} Registros.
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
+            <h:form>
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="Codigo"/><p:inputText value="#{apoderadoCon.apoderado.idApo}" maxlength="50"/>
+                    <p:outputLabel value="Nombre"/><p:inputText value="#{apoderadoCon.apoderado.nomApo}" maxlength="80"/>
+                    <p:outputLabel value="Apellido"/><p:inputText value="#{apoderadoCon.apoderado.apeApo}" maxlength="80"/>
+                    <p:outputLabel value="Ocupacion"/><p:inputText value="#{apoderadoCon.apoderado.ocuApo}" maxlength="50"/>
+                    <p:outputLabel value="Direccion"/><p:inputText value="#{apoderadoCon.apoderado.dirApo}" maxlength="350"/>
+                    <h:selectOneMenu id="Sexo" value="#{apoderadoCon.apoderado.sexApo}" required="true" label="Sexo">
+                        <f:selectItem itemLabel="Seleccione Sexo" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="M" itemValue="M" />
+                        <f:selectItem itemLabel="F" itemValue="F" />
+                    </h:selectOneMenu>
+                    <p:outputLabel value="DNI"/><p:inputText value="#{apoderadoCon.apoderado.dniApo}" maxlength="9"/>
+                    <p:outputLabel value="Ubigeo"/><p:inputText value="#{apoderadoCon.apoderado.ubiApo}" maxlength="6"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Actualizar" actionListener="#{apoderadoCon.modificar()}"
+                                 update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
+                    <p:confirm header="Confirmacion" message="¿Guardar cambios?" icon="ui-icon-alert"/>
+                    <p:tooltip trackMouse="true"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+                <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+            </h:form>
+        </p:dialog>
+    </h:body> 
+</html>

@@ -34,7 +34,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void modificar(Personal personal) throws Exception {
-        String sql = "UPDATE Maestra.Personal values (NOMPER=?,APEPER=?,CORPER=?,DNIPER=?,DOCPER=?,CELPER=?,UBIGEO_IDUBI=?, WHERE IDEST=?)";
+        String sql = "UPDATE Maestra.Personal values (NOMPER=?,APEPER=?,CORPER=?,DNIPER=?,DOCPER=?,CELPER=?,UBIGEO_IDUBI=?, WHERE IDPER=?)";
 
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
@@ -58,7 +58,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void eliminar(Personal personal) throws Exception {
-        String sql = "delete from MAESTRA.PERSONAL where IDEST=?";
+        String sql = "delete from MAESTRA.PERSONAL where IDPER=?";
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
             ps.setInt(1, personal.getIdPer());
