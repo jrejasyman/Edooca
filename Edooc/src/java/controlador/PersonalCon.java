@@ -13,44 +13,48 @@ import modelo.Personal;
 @Named(value = "personalCon")
 @SessionScoped
 public class PersonalCon implements Serializable {
-    
+
     private Personal personal;
     private PersonalImpl dao;
     private List<Personal> listadoPer;
 
-        public PersonalCon() {
+    public PersonalCon() {
         dao = new PersonalImpl();
         personal = new Personal();
         listadoPer = new ArrayList();
     }
-    public void registrar ()throws Exception{
+
+    public void registrar() throws Exception {
         try {
             dao.registrar(personal);
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Completado"));                    
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Completado"));
         } catch (Exception e) {
             throw e;
         }
     }
-    public void modificar() throws Exception{
+
+    public void modificar() throws Exception {
         try {
             dao.modificar(personal);
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Modificado"));                    
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Modificado"));
         } catch (Exception e) {
-            throw e;            
+            throw e;
         }
     }
-    public void eliminar() throws Exception{
+
+    public void eliminar(Personal per) throws Exception {
         try {
-            dao.eliminar(personal);
+            dao.eliminar(per);
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Eliminado..."));                                
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Eliminado..."));
         } catch (Exception e) {
-            throw e;            
+            throw e;
         }
     }
-    public void listar()throws Exception{
+
+    public void listar() throws Exception {
         try {
             listadoPer = dao.listarPer();
         } catch (Exception e) {
@@ -58,6 +62,7 @@ public class PersonalCon implements Serializable {
         }
     }
 //codigo generado
+
     public Personal getPersonal() {
         return personal;
     }
@@ -73,5 +78,5 @@ public class PersonalCon implements Serializable {
     public void setListadoPer(List<Personal> listadoPer) {
         this.listadoPer = listadoPer;
     }
-    
+
 }

@@ -46,7 +46,7 @@ public class CursoImpl extends Conexion implements ICurso {
 
     @Override
     public void eliminar(Curso curso) throws Exception {
-        String sql = "delete from MAESTRA.CURSO where IDCUR=?";
+        String sql = "delete from MAESTRA.Curso where IDCUR=?";
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
             ps.setInt(1, curso.getIdCur());
@@ -64,7 +64,7 @@ public class CursoImpl extends Conexion implements ICurso {
     public List<Curso> listarCur() throws Exception {
         List<Curso> listado;
         Curso cur;
-        String sql = "SELECT * FROM MAESTRA.CURSO";
+        String sql = "SELECT * FROM MAESTRA.Curso";
         try {
             listado = new ArrayList();
             Statement st = this.conectar().createStatement();
