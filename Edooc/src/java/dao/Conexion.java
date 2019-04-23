@@ -34,7 +34,7 @@ public class Conexion {
             cnx.close();
         }
     }
-/*
+
     public static void main(String[] args) throws Exception {
         conectar();
         if(cnx!=null){
@@ -44,5 +44,5 @@ public class Conexion {
         }
         
     }
-   */ 
+   
 }

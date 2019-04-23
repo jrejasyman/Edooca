@@ -11,7 +11,8 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void registrar(Personal personal) throws Exception {
-        String sql = "insert into Maestra.Personal values (IDPER,NOMPER,APEPER,CORPER,DNIPER,DOCPER,CELPER,UBIGEO_IDUBI)"
+
+        String sql = "insert into Maestra.Personal (IDPER,NOMPER,APEPER,CORPER,DNIPER,DOCPER,CELPER,UBIGEO_IDUBI)"
                 + "values(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
@@ -86,10 +87,10 @@ public class PersonalImpl extends Conexion implements IPersonal {
                 per.setIdPer(rs.getInt("IDPER"));
                 per.setNomPer(rs.getString("NOMPER"));
                 per.setApePer(rs.getString("APEPER"));
-                per.setCorPer(rs.getString("APEPER"));
-                per.setDniPer(rs.getString("APEPER"));
-                per.setDocPer(rs.getString("APEPER"));
-                per.setCelPer(rs.getString("APEPER"));
+                per.setCorPer(rs.getString("CORPER"));
+                per.setDniPer(rs.getString("DNIPER"));
+                per.setDocPer(rs.getString("DOCPER"));
+                per.setCelPer(rs.getString("CELPER"));
                 per.setUbiPer(rs.getString("UBIGEO_IDUBI"));
                 listado.add(per);
             }
