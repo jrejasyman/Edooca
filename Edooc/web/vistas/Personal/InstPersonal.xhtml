@@ -8,17 +8,36 @@
         <title>Insertar Personal</title>
     </h:head>
     <h:body>
+        <h1 style="margin-top:0">Registrar Personal</h1>
         <p:growl autoUpdate="true" showDetail="true"/>
         <h:form id="formIns">
             <p:panelGrid columns="4">
-                <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="50"/>
-                <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="80"/>
-                <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="80"/>
+                <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="50"/> 
+                <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="80">
+                    <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                </p:inputText> 
+
+                <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="80">
+                    <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                </p:inputText> 
+
                 <p:outputLabel value="Correo electronico"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
-                <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8"/>
-                <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="11"/>
-                <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9"/>
-                <p:outputLabel value="Ubigeo"/><p:inputText value="#{personalCon.personal.ubiPer}" maxlength="6"/>
+
+                <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText> 
+
+                <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="11">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText>
+
+                <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText>
+
+                <p:outputLabel value="Ubigeo"/><p:inputText value="#{personalCon.personal.ubiPer}" maxlength="6">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText>
             </p:panelGrid>
             <p:commandButton value="Registrar" actionListener="#{personalCon.registrar()}"/>
         </h:form>
