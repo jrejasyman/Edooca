@@ -77,19 +77,19 @@
         <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
             <h:form>
                 <p:panelGrid columns="4">
-                    <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="50"/>
+                    <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="5"/>
                     <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="80"/>
                     <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="80"/>
                     <p:outputLabel value="Correo electronico"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
                     <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8"/>
-                    <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="80"/>
+                    <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="11"/>
                     <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9"/>
                     <p:outputLabel value="Ubigeo"/><p:inputText value="#{personalCon.personal.ubiPer}" maxlength="6"/>
                 </p:panelGrid>
 
                 <p:commandButton value="Actualizar" actionListener="#{personalCon.modificar()}"
                                  update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
-                    <p:confirm header="Confirmacion" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                    <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
                     <p:tooltip trackMouse="true"/>
                 </p:commandButton>
 

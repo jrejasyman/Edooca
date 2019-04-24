@@ -46,6 +46,7 @@ public class CursoImpl extends Conexion implements ICurso {
 
     @Override
     public void eliminar(Curso curso) throws Exception {
+<<<<<<< HEAD
         String sql = "delete from MAESTRA.CURSO where IDCUR=?";
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
@@ -65,6 +66,27 @@ public class CursoImpl extends Conexion implements ICurso {
         List<Curso> listado;
         Curso cur;
         String sql = "SELECT * FROM MAESTRA.CURSO";
+=======
+        String sql = "delete from MAESTRA.Curso where IDCUR=?";
+        try {
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            ps.setInt(1, curso.getIdCur());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error en l aparte de eliminar de impl" + e.getMessage());
+            throw e;
+        } finally {
+            this.cerrar();
+        }
+    }
+
+    @Override
+    public List<Curso> listarCur() throws Exception {
+        List<Curso> listado;
+        Curso cur;
+        String sql = "SELECT * FROM MAESTRA.Curso";
+>>>>>>> origin/master
         try {
             listado = new ArrayList();
             Statement st = this.conectar().createStatement();

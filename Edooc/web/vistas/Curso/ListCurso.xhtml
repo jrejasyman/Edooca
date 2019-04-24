@@ -25,6 +25,7 @@
                     <h:outputText value="#{lista.nomCur}"/>
                 </p:column>
 
+<<<<<<< HEAD
                 <p:column><!--modificar-->
                     <p:commandButton icon="ui-icon-pencil"
                                      oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
@@ -36,6 +37,19 @@
                     <p:commandButton icon="ui-icon-circle-close" update=":messages"
                                      actionListener="#{cursoCon.eliminar(lista)}">
                         <p:confirm header="Confirmacion" message="¿Desea eliminar?" icon="ui-icon-alert"/>
+=======
+                <p:column><!-- modifica papu-->
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
+                        <f:setPropertyActionListener value="#{lista}" target="#{cursoCon.curso}"/>
+                    </p:commandButton>   
+                </p:column> 
+
+                <p:column> <!--vamo eliminar-->
+                    <p:commandButton icon="ui-icon-circle-close" update=":messages"
+                                     actionListener="#{cursoCon.eliminar(lista)}">
+                        <p:confirm header="Confirmacion" message="¿Deseas eliminar?" icon="ui-icon-alert"/>
+>>>>>>> origin/master
                         <p:tooltip trackMouse="true"/>                        
                     </p:commandButton>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

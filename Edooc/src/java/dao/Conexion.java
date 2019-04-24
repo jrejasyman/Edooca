@@ -44,5 +44,9 @@ public class Conexion {
         }
         
     }
+<<<<<<< HEAD
    */ 
+=======
+   
+>>>>>>> origin/master
 }
