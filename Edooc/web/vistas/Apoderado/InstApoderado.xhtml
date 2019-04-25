@@ -21,7 +21,7 @@
                 </p:inputText>
                 
                 <p:outputLabel value="Apellido"/>
-                <p:inputText value="#{ApoderadoCon.apoderado.apeApo}" maxlength="50">
+                <p:inputText value="#{apoderadoCon.apoderado.apeApo}" maxlength="50">
                     <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                 </p:inputText>
                 
@@ -29,7 +29,7 @@
                 <p:inputText value="#{apoderadoCon.apoderado.ocuApo}" maxlength="50"/>
                                 
                 <p:outputLabel value="Direccion"/>
-                <p:inputText value="#{apoderadoApo.apoderado.dirApo}" maxlength="350">
+                <p:inputText value="#{apoderadoCon.apoderado.dirApo}" maxlength="350">
                 </p:inputText>
                 
                  
@@ -45,7 +45,8 @@
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
                 
-                <p:outputLabel value="Ubigeo"/><p:inputText value="#{apoderadoCon.apoderado.ubiApo}" maxlength="6"/>
+                <p:outputLabel value="Ubigeo" for="Ubi"/>
+                <p:autoComplete id="Ubi" value="#{apoderadoCon.apoderado.ubiApo}" completeMethod="#{apoderadoCon.completeText}" />
                 
             </p:panelGrid>
             <p:commandButton value="Registrar" actionListener="#{apoderadoCon.registrar()}" /> 

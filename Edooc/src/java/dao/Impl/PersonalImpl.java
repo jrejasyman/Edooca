@@ -1,5 +1,7 @@
-package dao;
+package dao.Impl;
 
+import dao.Conexion;
+import dao.IPersonal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,7 +17,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
         String sql = "insert into Maestra.Personal (IDPER,NOMPER,APEPER,CORPER,DNIPER,DOCPER,CELPER,UBIGEO_IDUBI)"
                 + "values(?,?,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, personal.getIdPer());
             ps.setString(2, personal.getNomPer());
             ps.setString(3, personal.getApePer());
@@ -38,7 +40,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
         String sql = "UPDATE Maestra.Personal values (NOMPER=?,APEPER=?,CORPER=?,DNIPER=?,DOCPER=?,CELPER=?,UBIGEO_IDUBI=?, WHERE IDPER=?)";
 
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, personal.getNomPer());
             ps.setString(2, personal.getApePer());
             ps.setString(3, personal.getCorPer());
@@ -61,7 +63,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
     public void eliminar(Personal personal) throws Exception {
         String sql = "delete from MAESTRA.PERSONAL where IDPER=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, personal.getIdPer());
             ps.executeUpdate();
             ps.close();
@@ -80,7 +82,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
         String sql = "SELECT * FROM MAESTRA.PERSONAL";
         try {
             listado = new ArrayList();
-            Statement st = this.conectar().createStatement();
+            Statement st = this.getConectar().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 per = new Personal();

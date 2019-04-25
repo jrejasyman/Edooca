@@ -1,5 +1,7 @@
-package dao;
+package dao.Impl;
 
+import dao.Conexion;
+import dao.ICurso;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -14,7 +16,7 @@ public class CursoImpl extends Conexion implements ICurso {
         String sql = "insert into Maestra.Curso values (IDCUR,NOMCUR)"
                 + "values(?,?)";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, curso.getIdCur());
             ps.setString(2, curso.getNomCur());
             ps.executeUpdate();
@@ -31,7 +33,7 @@ public class CursoImpl extends Conexion implements ICurso {
         String sql = "UPDATE Maestra.Curso values (NOMCUR=?, WHERE IDCUR=?)";
 
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, curso.getNomCur());
             ps.setInt(2, curso.getIdCur());
             ps.executeUpdate();
@@ -46,10 +48,10 @@ public class CursoImpl extends Conexion implements ICurso {
 
     @Override
     public void eliminar(Curso curso) throws Exception {
-<<<<<<< HEAD
+
         String sql = "delete from MAESTRA.CURSO where IDCUR=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, curso.getIdCur());
             ps.executeUpdate();
             ps.close();
@@ -61,13 +63,11 @@ public class CursoImpl extends Conexion implements ICurso {
         }
     }
 
-    @Override
+    /*@Override
     public List<Curso> listarCur() throws Exception {
         List<Curso> listado;
         Curso cur;
-        String sql = "SELECT * FROM MAESTRA.CURSO";
-=======
-        String sql = "delete from MAESTRA.Curso where IDCUR=?";
+        String sql = "SELECT * FROM MAESTRA.CURSO";        
         try {
             PreparedStatement ps = this.conectar().prepareStatement(sql);
             ps.setInt(1, curso.getIdCur());
@@ -79,17 +79,17 @@ public class CursoImpl extends Conexion implements ICurso {
         } finally {
             this.cerrar();
         }
-    }
+    }*/
 
     @Override
     public List<Curso> listarCur() throws Exception {
         List<Curso> listado;
         Curso cur;
         String sql = "SELECT * FROM MAESTRA.Curso";
->>>>>>> origin/master
+
         try {
             listado = new ArrayList();
-            Statement st = this.conectar().createStatement();
+            Statement st = this.getConectar().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 cur = new Curso();
@@ -106,7 +106,6 @@ public class CursoImpl extends Conexion implements ICurso {
             this.cerrar();
         }
         return listado;
-
     }
 
 }

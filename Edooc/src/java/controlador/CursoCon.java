@@ -1,6 +1,6 @@
 package controlador;
 
-import dao.CursoImpl;
+import dao.Impl.CursoImpl;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

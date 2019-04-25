@@ -26,7 +26,8 @@
                 <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
                 <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
                 <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
-                <p:outputLabel value="Ubigeo"/><p:inputText value="#{estudianteCon.estudiante.ubiEstu}" maxlength="6"/>
+                <p:outputLabel value="Ubigeo" for="Ubi"/>
+                <p:autoComplete id="Ubi" value="#{estudianteCon.estudiante.ubiEstu}" completeMethod="#{estudianteCon.completeText}"/>
             </p:panelGrid>
             <p:commandButton value="Registrar" actionListener="#{estudianteCon.registrar()}"/>
         </h:form>

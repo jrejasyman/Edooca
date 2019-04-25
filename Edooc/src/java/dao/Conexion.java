@@ -1,52 +1,47 @@
 package dao;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
-import javax.swing.JOptionPane;
+import java.sql.SQLException;
 
 public class Conexion {
-  
-    public static Connection cnx = null;
-    
-    public static Connection conectar() throws  Exception{
-        InputStream inputStream = 
-                Conexion.class.getClassLoader().getResourceAsStream("properties/db.properties");
-        Properties properties = new Properties();
+
+    private Connection conectar;
+
+    public void Conexion() {
         try {
-            properties.load(inputStream);
-            String user = properties.getProperty("user");
-            String pwd = properties.getProperty("pwd");
-            String driver = properties.getProperty("driver");
-            String url = properties.getProperty("url");
-            Class.forName(driver).newInstance();
-            cnx = DriverManager.getConnection(url, user, pwd);            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error de conexión, revise xfa");
-            System.out.println("error de conexion " + e.getMessage());
-        }
-        return cnx;
-    }
-    
-    public void cerrar() throws Exception{
-        if(cnx !=null){
-            cnx.close();
+            if (conectar == null) {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");                
+                conectar = DriverManager.getConnection("jdbc:sqlserver://34.73.201.76;database=Team02", "User02", "User02-20199");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Error: " + e);
         }
     }
-/*
-    public static void main(String[] args) throws Exception {
-        conectar();
-        if(cnx!=null){
-            System.out.println("conexion consedida");
-        }else{
-            System.out.println("conexion denegada");
+    public void cerrar() throws SQLException {      //Cerrar la conexion
+        if (conectar != null) {
+            if (conectar.isClosed() == false) {
+                conectar.close();
+                conectar = null;
+            }
         }
-        
     }
-<<<<<<< HEAD
-   */ 
-=======
-   
->>>>>>> origin/master
+
+    public Connection getConectar() {
+        return conectar;
+    }
+
+    public void setConectar(Connection conectar) {
+        this.conectar = conectar;
+    }
+
+    public static void main(String[] args) {
+        Conexion dao = new Conexion();
+        dao.Conexion();
+        if (dao.getConectar() != null) {
+            System.out.println("Conectado");
+        } else {
+            System.out.println("No hay Conexion");
+        }
+    }
 }

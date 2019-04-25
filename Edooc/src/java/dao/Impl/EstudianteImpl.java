@@ -1,8 +1,10 @@
-package dao;
+package dao.Impl;
 
+import dao.Conexion;
+import dao.IEstudiante;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Estudiante;
@@ -14,8 +16,8 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
         String INSERT = "INSERT INTO MAESTRA.ESTUDIANTE"
                 + "(IDEST, NOMEST, APEEST, SEXEST, CELEST, DNIEST, PAREST, COREST, UBIGEO_IDUBI)"
                 + " values (?,?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement ps = this.conectar().prepareStatement(INSERT);
+        try {            
+            PreparedStatement ps = this.getConectar().prepareStatement(INSERT);
             ps.setInt(1, estudiante.getIdEstu());
             ps.setString(2, estudiante.getNomEstu());
             ps.setString(3, estudiante.getApeEstu());
@@ -27,8 +29,8 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
             ps.setString(9, estudiante.getUbiEstu());
             ps.executeUpdate();
             ps.close();
-        } catch (Exception e) {
-            System.out.println("Error alingresar datos Impl" + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al ingresar datos Impl" + e.getMessage());
             throw e;
         } finally {
             this.cerrar();
@@ -39,7 +41,8 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     public void modificar(Estudiante estudiante) throws Exception {
         String sql = "UPDATE MAESTRA.ESTUDIANTE SET NOMEST=?, APEEST=?, SEXEST=?, CELEST=?, DNIEST=?, PAREST=?, COREST=?, UBIGEO_IDUBI=? WHERE IDEST=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            this.Conexion();
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, estudiante.getNomEstu());
             ps.setString(2, estudiante.getApeEstu());
             ps.setString(3, estudiante.getSexEstu());
@@ -51,7 +54,7 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
             ps.setInt(9, estudiante.getIdEstu());
             ps.executeUpdate();
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("error en update" + e.getMessage());
             throw e;
         } finally {
@@ -63,14 +66,15 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     public void eliminar(Estudiante estudiante) throws Exception {
         String sql = "delete from MAESTRA.ESTUDIANTE where IDEST=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            this.Conexion();
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, estudiante.getIdEstu());
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
             System.out.println("Error en l aparte de eliminar de impl" + e.getMessage());
             throw e;
-        }finally{
+        } finally {
             this.cerrar();
         }
     }
@@ -78,14 +82,15 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     @Override
     public List<Estudiante> listarEst() throws Exception {
         List<Estudiante> listado;
-        Estudiante estu;
-        String sql ="SELECT * FROM MAESTRA.ESTUDIANTE" ;
+        ResultSet rs;        
         try {
-            listado = new ArrayList() ;
-            Statement st = this.conectar().createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()){
-                estu = new Estudiante();
+            Conexion();
+            String sql = "SELECT * FROM MAESTRA.ESTUDIANTE";
+            listado = new ArrayList();
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Estudiante estu = new Estudiante();
                 estu.setIdEstu(rs.getInt("IDEST"));
                 estu.setNomEstu(rs.getString("NOMEST"));
                 estu.setApeEstu(rs.getString("APEEST"));
@@ -95,17 +100,54 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
                 estu.setParEstu(rs.getString("PAREST"));
                 estu.setCorEstu(rs.getString("COREST"));
                 estu.setUbiEstu(rs.getString("UBIGEO_IDUBI"));
-                listado.add(estu);                
-            }
-            rs.close();
-            st.close();
-        } catch (Exception e) {
+                listado.add(estu);
+            }            
+        } catch (SQLException e) {
             throw e;
-            
-        }finally{
+
+        } finally {
             this.cerrar();
         }
         return listado;
 
-    }    
+    }
+
+    //codigo de autocomplete implemen
+    public String obtenerCodigoUbigeo(String Ubigeo) throws SQLException, Exception {
+        this.Conexion();
+        ResultSet rs;
+        try {
+            String sql = "SELECT IDUBI FROM MAESTRA.UBIGEO WHERE CONCAT(DEPUBI,' ',PROUBI,' ', DISUBI) LIKE ?";
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            ps.setString(1, Ubigeo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("IDUBI");
+            }
+            return null;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
+    public List<String> autocompleteUbigeo(String Consulta) throws SQLException, Exception {
+        this.Conexion();
+        ResultSet rs;
+        List<String> Lista;
+        try {
+            String sql = "SELECT CONCAT(DEPUBI,' ',PROUBI,' ',DISUBI) AS DISUBI FROM MAESTRA.UBIGEO WHERE DISUBI LIKE ?";
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            ps.setString(1, "%" + Consulta + "%");
+            Lista = new ArrayList<>();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Lista.add(rs.getString("DISUBI"));
+            }
+            return Lista;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
 }

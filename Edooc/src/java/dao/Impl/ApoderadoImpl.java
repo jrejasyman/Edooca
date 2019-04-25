@@ -1,7 +1,10 @@
-package dao;
+package dao.Impl;
 
+import dao.Conexion;
+import dao.IApoderado;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +14,10 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
 
     @Override
     public void registrar(Apoderado apoderado) throws Exception {
-        String sql = "insert into MAESTRA.APODERADO values (IDAPO,NOMAPO,APEAPO,OCUAPO,DIRAPO,SEXAPO,DNIAPO,UBIGEO_IDUBI)"
+        String sql = "insert into MAESTRA.APODERADO (IDAPO,NOMAPO,APEAPO,OCUAPO,DIRAPO,SEXAPO,DNIAPO,UBIGEO_IDUBI)"
                 + "values(?,?,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, apoderado.getIdApo());
             ps.setString(2, apoderado.getNomApo());
             ps.setString(3, apoderado.getApeApo());
@@ -37,7 +40,8 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
     public void modificar(Apoderado apoderado) throws Exception {
         String sql = "UPDATE MAESTRA.APODERADO SET NOMAPO=?, APEAPO=?, OCUAPO=?, DIRAPO=?, SEXAPO=?, DNIAPO=?, UBIGEO_IDUBI=? WHERE IDAPO=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            this.Conexion();
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, apoderado.getNomApo());
             ps.setString(2, apoderado.getApeApo());
             ps.setString(3, apoderado.getOcuApo());
@@ -60,7 +64,8 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
     public void eliminar(Apoderado apoderado) throws Exception {
         String sql = "delete from MAESTRA.APODERADO where IDAPO=?";
         try {
-            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            this.Conexion();
+            PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, apoderado.getIdApo());
             ps.executeUpdate();
             ps.close();
@@ -75,14 +80,17 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
     @Override
     public List<Apoderado> listarApo() throws Exception {
         List<Apoderado> listado;
-        Apoderado apo;
-        String sql = "SELECT * FROM MAESTRA.APODERADO";
+        ResultSet rs;
+
+        
         try {
+            Conexion();
+            String sql = "SELECT * FROM MAESTRA.APODERADO";
             listado = new ArrayList();
-            Statement st = this.conectar().createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            Statement st = this.getConectar().createStatement();
+            rs = st.executeQuery(sql);
             while (rs.next()) {
-                apo = new Apoderado();
+                Apoderado apo = new Apoderado();
                 apo.setIdApo(rs.getInt("IDAPO"));
                 apo.setNomApo(rs.getString("NOMAPO"));
                 apo.setApeApo(rs.getString("APEAPO"));
@@ -93,8 +101,6 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
                 apo.setUbiApo(rs.getString("UBIGEO_IDUBI"));
                 listado.add(apo);
             }
-            rs.close();
-            st.close();
         } catch (Exception e) {
             throw e;
 
@@ -104,4 +110,43 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
         return listado;
 
     }
+
+    public String obtenerCodigoUbigeo(String Ubigeo) throws SQLException, Exception {
+        this.Conexion();
+        ResultSet rs;
+        try {
+            String sql = "Select idubi from maestra.ubigeo where concat(depubi,' ', proubi,' ',disubi)like ?";
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            ps.setString(1, Ubigeo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("IDUBI");
+            }
+            return null;
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
+    public List<String> autocompleteUbigeo(String Cosulta) throws SQLException, Exception {
+        this.Conexion();
+        ResultSet rs;
+        List<String> Lista;
+        try {
+            String sql = "Select CONCAT (DEPUBI,' ', PROUBI,' ',DISUBI) AS DISUBI FROM MAESTRA.UBIGEO WHERE DISUBI LIKE ?";
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            ps.setString(1, "%" + Cosulta + "%");
+            Lista = new ArrayList<>();
+            rs = ps.executeQuery();
+           
+            while (rs.next()) {
+                Lista.add(rs.getString("disubi"));
+            }
+            return Lista;
+        } catch (SQLException e) {
+            throw e;
+        }
+        
+    }
+
 }
