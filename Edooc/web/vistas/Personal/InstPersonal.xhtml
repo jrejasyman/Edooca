@@ -31,9 +31,8 @@
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
                 
-                <p:outputLabel value="Fecha de Nacimiento"/><p:inputText value="#{personalCon.personal.fdnPer}" maxlength="80">
-                    <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
-                </p:inputText> 
+                <p:outputLabel for="button" value="Fecha de matricula:" /> 
+                <p:calendar id="button" value="#{personalCon.personal.fdnPer}" pattern="dd/MM/yyyy"/>
                 
                 <p:outputLabel value="Sexo"/>
                 <p:selectOneRadio id="Sexo" value="#{personalCon.personal.sexPer}" >

@@ -25,29 +25,34 @@
                     <h:outputText value="#{lista.nomPer}"/>
                 </p:column>
 
-                <p:column headerText="Apellido">
-                    <h:outputText value="#{lista.apePer}"/>
+                <p:column headerText="Apellido" filterBy="#{lista.nomPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.nomPer}"/>
                 </p:column>
 
-                <p:column headerText="Correo">
-                    <h:outputText value="#{lista.corPer}"/>
+                <p:column headerText="Cargo" filterBy="#{lista.carPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.carPer}"/>
                 </p:column>
 
-                <p:column headerText="Dni">
+                <p:column headerText="DNI" filterBy="#{lista.dniPer}" filterMatchMode="contains" >
                     <h:outputText value="#{lista.dniPer}"/>
                 </p:column>
 
-                <p:column headerText="Documento">
-                    <h:outputText value="#{lista.docPer}"/>
+                <p:column headerText="Fecha de Nacimiento" filterBy="#{lista.fdnPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.fdnPer}"/>
                 </p:column>
 
-                <p:column headerText="Celular">
+                <p:column headerText="Sexo" filterBy="#{lista.sexPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.sexPer}"/>
+                </p:column>
+
+                <p:column headerText="Correo" filterBy="#{lista.corPer}" filterMatchMode="contains" >
+                    <h:outputText value="#{lista.corPer}"/>
+                </p:column>
+
+                <p:column headerText="Celular" filterBy="#{lista.celPer}" filterMatchMode="contains" >
                     <h:outputText value="#{lista.celPer}"/>
                 </p:column>
 
-                <p:column headerText="Ubigeo">
-                    <h:outputText value="#{lista.ubiPer}"/>
-                </p:column>
 
                 <p:column><!-- modifica papu-->
                     <p:commandButton icon="ui-icon-pencil"
@@ -78,13 +83,19 @@
             <h:form>
                 <p:panelGrid columns="4">
                     <p:outputLabel value="Codigo"/><p:inputText value="#{personalCon.personal.idPer}" maxlength="5"/>
-                    <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="80"/>
-                    <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="80"/>
-                    <p:outputLabel value="Correo electronico"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
-                    <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8"/>
-                    <p:outputLabel value="Documento"/><p:inputText value="#{personalCon.personal.docPer}" maxlength="11"/>
+                    <p:outputLabel value="Nombre"/><p:inputText value="#{personalCon.personal.nomPer}" maxlength="50"/>
+                    <p:outputLabel value="Apellido"/><p:inputText value="#{personalCon.personal.apePer}" maxlength="50"/>
+                    <p:outputLabel value="Cargo"/><p:inputText value="#{personalCon.personal.carPer}" maxlength="50"/>
+                    <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength=8"/>
+                    <p:outputLabel value="Fecha de Nacimiento"/><p:inputText value="#{personalCon.personal.fdnPer}" maxlength="50"/>
+                    <p:outputLabel value="Sexo"/>
+                    <p:selectOneRadio id="Sexo" value="#{personalCon.personal.sexPer}" >
+                        <f:selectItem itemLabel="M" itemValue="M" />
+                        <f:selectItem itemLabel="F" itemValue="F" />
+                    </p:selectOneRadio>   
+                    <p:outputLabel value="Correo"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="80"/>
                     <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9"/>
-                    <p:outputLabel value="Ubigeo"/><p:inputText value="#{personalCon.personal.ubiPer}" maxlength="6"/>
+
                 </p:panelGrid>
 
                 <p:commandButton value="Actualizar" actionListener="#{personalCon.modificar()}"

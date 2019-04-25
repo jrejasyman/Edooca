@@ -23,7 +23,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
             ps.setString(3, personal.getApePer());
             ps.setString(4, personal.getCarPer());
             ps.setString(5, personal.getDniPer());
-            ps.setString(6, personal.getFdnPer());
+            ps.setDate(6, personal.getFdnPer());
             ps.setString(7, personal.getSexPer());
             ps.setString(8, personal.getCorPer());
             ps.setString(9, personal.getCelPer());
@@ -47,7 +47,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
             ps.setString(2, personal.getApePer());
             ps.setString(3, personal.getCarPer());
             ps.setString(4, personal.getDniPer());
-            ps.setString(5, personal.getFdnPer());
+            ps.setDate(5, personal.getFdnPer());
             ps.setString(6, personal.getSexPer());
             ps.setString(7, personal.getCorPer());
             ps.setString(8, personal.getCelPer());
@@ -96,7 +96,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
                 per.setApePer(rs.getString("APEPER"));
                 per.setCarPer(rs.getString("CARPER"));
                 per.setDniPer(rs.getString("DNIPER"));
-                per.setFdnPer(rs.getString("FDNPER"));
+                per.setFdnPer(rs.getDate("FDNPER"));
                 per.setSexPer(rs.getString("SEXPER"));
                 per.setCorPer(rs.getString("CORPER"));
                 per.setCelPer(rs.getString("CELPER"));
