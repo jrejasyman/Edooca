@@ -7,12 +7,10 @@ public class Personal {
     private int idPer;
     private String nomPer;
     private String apePer;
-    private String corPer;
+    private String carPer;
     private String dniPer;
-    private String docPer;
+    private String fdnPer;
+    private String sexPer;    
+    private String corPer;
     private String celPer;
-    private String ubiPer;
-    
-    
-    
 }

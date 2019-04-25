@@ -4,7 +4,7 @@ import dao.Conexion;
 import dao.IPersonal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Personal;
@@ -13,23 +13,25 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void registrar(Personal personal) throws Exception {
-
-        String sql = "insert into Maestra.Personal (IDPER,NOMPER,APEPER,CORPER,DNIPER,DOCPER,CELPER,UBIGEO_IDUBI)"
-                + "values(?,?,?,?,?,?,?,?)";
+        String INSERT = "INSERT INTO MAESTRA.PERSONAL"
+                + "(IDPER, NOMPER, APEPER, CARPER, DNIPER, FDNPER, SEXPER, CORPER, CELPER)"
+                + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            PreparedStatement ps = this.getConectar().prepareStatement(sql);
+            PreparedStatement ps = this.getConectar().prepareStatement(INSERT);
             ps.setInt(1, personal.getIdPer());
             ps.setString(2, personal.getNomPer());
             ps.setString(3, personal.getApePer());
-            ps.setString(4, personal.getCorPer());
+            ps.setString(4, personal.getCarPer());
             ps.setString(5, personal.getDniPer());
-            ps.setString(6, personal.getDocPer());
-            ps.setString(7, personal.getCelPer());
-            ps.setString(8, personal.getUbiPer());
+            ps.setString(6, personal.getFdnPer());
+            ps.setString(7, personal.getSexPer());
+            ps.setString(8, personal.getCorPer());
+            ps.setString(9, personal.getCelPer());
             ps.executeUpdate();
             ps.close();
-        } catch (Exception e) {
-            System.out.println("Error en la inserción de datos" + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al ingresar datos Impl" + e.getMessage());
+            throw e;
         } finally {
             this.cerrar();
         }
@@ -37,21 +39,22 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void modificar(Personal personal) throws Exception {
-        String sql = "UPDATE Maestra.Personal values (NOMPER=?,APEPER=?,CORPER=?,DNIPER=?,DOCPER=?,CELPER=?,UBIGEO_IDUBI=?, WHERE IDPER=?)";
-
+        String sql = "UPDATE MAESTRA.PERSONAL SET NOMPER=?, APEPER=?, CARPER=?, DNIPER=?, FDNPER=?, SEXPER=?, CORPER=?, CELPER=?, WHERE IDPER=?";
         try {
+            this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, personal.getNomPer());
             ps.setString(2, personal.getApePer());
-            ps.setString(3, personal.getCorPer());
+            ps.setString(3, personal.getCarPer());
             ps.setString(4, personal.getDniPer());
-            ps.setString(5, personal.getDocPer());
-            ps.setString(6, personal.getCelPer());
-            ps.setString(7, personal.getUbiPer());
-            ps.setInt(8, personal.getIdPer());
+            ps.setString(5, personal.getFdnPer());
+            ps.setString(6, personal.getSexPer());
+            ps.setString(7, personal.getCorPer());
+            ps.setString(8, personal.getCelPer());
+            ps.setInt(9, personal.getIdPer());
             ps.executeUpdate();
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("error en update" + e.getMessage());
             throw e;
         } finally {
@@ -63,6 +66,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
     public void eliminar(Personal personal) throws Exception {
         String sql = "delete from MAESTRA.PERSONAL where IDPER=?";
         try {
+            this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setInt(1, personal.getIdPer());
             ps.executeUpdate();
@@ -78,27 +82,27 @@ public class PersonalImpl extends Conexion implements IPersonal {
     @Override
     public List<Personal> listarPer() throws Exception {
         List<Personal> listado;
-        Personal per;
-        String sql = "SELECT * FROM MAESTRA.PERSONAL";
+        ResultSet rs;
         try {
+            Conexion();
+            String sql = "SELECT * FROM MAESTRA.PERSONAL";
             listado = new ArrayList();
-            Statement st = this.getConectar().createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = this.getConectar().prepareCall(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
-                per = new Personal();
+                Personal per = new Personal();
                 per.setIdPer(rs.getInt("IDPER"));
                 per.setNomPer(rs.getString("NOMPER"));
                 per.setApePer(rs.getString("APEPER"));
-                per.setCorPer(rs.getString("CORPER"));
+                per.setCarPer(rs.getString("CARPER"));
                 per.setDniPer(rs.getString("DNIPER"));
-                per.setDocPer(rs.getString("DOCPER"));
+                per.setFdnPer(rs.getString("FDNPER"));
+                per.setSexPer(rs.getString("SEXPER"));
+                per.setCorPer(rs.getString("CORPER"));
                 per.setCelPer(rs.getString("CELPER"));
-                per.setUbiPer(rs.getString("UBIGEO_IDUBI"));
                 listado.add(per);
             }
-            rs.close();
-            st.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw e;
 
         } finally {

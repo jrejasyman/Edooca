@@ -5,7 +5,9 @@ import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import modelo.Personal;
@@ -18,6 +20,16 @@ public class PersonalCon implements Serializable {
     private PersonalImpl dao;
     private List<Personal> listadoPer;
 
+    @PostConstruct
+    public void init() {
+        try {
+            listar();
+        } catch (Exception e) {
+            System.out.println("error init " + e.getMessage());
+        }
+
+    }
+
     public PersonalCon() {
         dao = new PersonalImpl();
         personal = new Personal();
@@ -26,7 +38,9 @@ public class PersonalCon implements Serializable {
 
     public void registrar() throws Exception {
         try {
+            dao = new PersonalImpl();
             dao.registrar(personal);
+            listar();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Completado"));
         } catch (Exception e) {
@@ -36,7 +50,9 @@ public class PersonalCon implements Serializable {
 
     public void modificar() throws Exception {
         try {
+            dao = new PersonalImpl();
             dao.modificar(personal);
+            listar();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Modificado"));
         } catch (Exception e) {
@@ -46,7 +62,9 @@ public class PersonalCon implements Serializable {
 
     public void eliminar(Personal per) throws Exception {
         try {
+            dao = new PersonalImpl();
             dao.eliminar(per);
+            listar();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", "Eliminado..."));
         } catch (Exception e) {
@@ -55,14 +73,21 @@ public class PersonalCon implements Serializable {
     }
 
     public void listar() throws Exception {
+        PersonalImpl Conexion;
         try {
-            listadoPer = dao.listarPer();
+            Conexion = new PersonalImpl();
+            listadoPer = Conexion.listarPer();
         } catch (Exception e) {
             throw e;
         }
     }
-//codigo generado
 
+    public List<String> completeText(String query) throws SQLException, Exception {
+        PersonalImpl Conexion = new PersonalImpl();
+        return null;
+    }
+
+//codigo generado
     public Personal getPersonal() {
         return personal;
     }
@@ -77,6 +102,14 @@ public class PersonalCon implements Serializable {
 
     public void setListadoPer(List<Personal> listadoPer) {
         this.listadoPer = listadoPer;
+    }
+
+    public PersonalImpl getDao() {
+        return dao;
+    }
+
+    public void setDao(PersonalImpl dao) {
+        this.dao = dao;
     }
 
 }
