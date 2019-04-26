@@ -52,6 +52,7 @@ public class EstudianteCon implements Serializable {
     public void modificar() throws Exception{
         try {
             dao = new EstudianteImpl();
+            estudiante.setUbiEstu(dao.obtenerCodigoUbigeo(estudiante.getNomubigeo()));
             dao.modificar(estudiante);
             listar();
             FacesContext.getCurrentInstance().addMessage(null,
