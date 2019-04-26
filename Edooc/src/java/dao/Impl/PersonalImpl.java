@@ -14,19 +14,19 @@ public class PersonalImpl extends Conexion implements IPersonal {
     @Override
     public void registrar(Personal personal) throws Exception {
         String INSERT = "INSERT INTO MAESTRA.PERSONAL"
-                + "(IDPER, NOMPER, APEPER, CARPER, DNIPER, FDNPER, SEXPER, CORPER, CELPER)"
-                + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(IDPER, NOMPER, APEPER, CARPER, DNIPER, SEXPER, CORPER, CELPER)"
+                + " values (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+            this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(INSERT);
             ps.setInt(1, personal.getIdPer());
             ps.setString(2, personal.getNomPer());
             ps.setString(3, personal.getApePer());
             ps.setString(4, personal.getCarPer());
-            ps.setString(5, personal.getDniPer());
-            ps.setDate(6, personal.getFdnPer());
-            ps.setString(7, personal.getSexPer());
-            ps.setString(8, personal.getCorPer());
-            ps.setString(9, personal.getCelPer());
+            ps.setString(5, personal.getDniPer());            
+            ps.setString(6, personal.getSexPer());
+            ps.setString(7, personal.getCorPer());
+            ps.setString(8, personal.getCelPer());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -39,19 +39,18 @@ public class PersonalImpl extends Conexion implements IPersonal {
 
     @Override
     public void modificar(Personal personal) throws Exception {
-        String sql = "UPDATE MAESTRA.PERSONAL SET NOMPER=?, APEPER=?, CARPER=?, DNIPER=?, FDNPER=?, SEXPER=?, CORPER=?, CELPER=?, WHERE IDPER=?";
+        String sql = "UPDATE MAESTRA.PERSONAL SET NOMPER=?, APEPER=?, CARPER=?, DNIPER=?, SEXPER=?, CORPER=?, CELPER=? WHERE IDPER=?";
         try {
             this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, personal.getNomPer());
             ps.setString(2, personal.getApePer());
             ps.setString(3, personal.getCarPer());
-            ps.setString(4, personal.getDniPer());
-            ps.setDate(5, personal.getFdnPer());
-            ps.setString(6, personal.getSexPer());
-            ps.setString(7, personal.getCorPer());
-            ps.setString(8, personal.getCelPer());
-            ps.setInt(9, personal.getIdPer());
+            ps.setString(4, personal.getDniPer());            
+            ps.setString(5, personal.getSexPer());
+            ps.setString(6, personal.getCorPer());
+            ps.setString(7, personal.getCelPer());
+            ps.setInt(8, personal.getIdPer());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -95,8 +94,7 @@ public class PersonalImpl extends Conexion implements IPersonal {
                 per.setNomPer(rs.getString("NOMPER"));
                 per.setApePer(rs.getString("APEPER"));
                 per.setCarPer(rs.getString("CARPER"));
-                per.setDniPer(rs.getString("DNIPER"));
-                per.setFdnPer(rs.getDate("FDNPER"));
+                per.setDniPer(rs.getString("DNIPER"));                
                 per.setSexPer(rs.getString("SEXPER"));
                 per.setCorPer(rs.getString("CORPER"));
                 per.setCelPer(rs.getString("CELPER"));

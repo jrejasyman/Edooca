@@ -38,7 +38,7 @@ public class PersonalCon implements Serializable {
 
     public void registrar() throws Exception {
         try {
-            dao = new PersonalImpl();
+            
             dao.registrar(personal);
             listar();
             FacesContext.getCurrentInstance().addMessage(null,
@@ -50,7 +50,7 @@ public class PersonalCon implements Serializable {
 
     public void modificar() throws Exception {
         try {
-            dao = new PersonalImpl();
+           
             dao.modificar(personal);
             listar();
             FacesContext.getCurrentInstance().addMessage(null,
@@ -62,7 +62,7 @@ public class PersonalCon implements Serializable {
 
     public void eliminar(Personal per) throws Exception {
         try {
-            dao = new PersonalImpl();
+           
             dao.eliminar(per);
             listar();
             FacesContext.getCurrentInstance().addMessage(null,
@@ -82,10 +82,7 @@ public class PersonalCon implements Serializable {
         }
     }
 
-    public List<String> completeText(String query) throws SQLException, Exception {
-        PersonalImpl Conexion = new PersonalImpl();
-        return null;
-    }
+    
 
 //codigo generado
     public Personal getPersonal() {

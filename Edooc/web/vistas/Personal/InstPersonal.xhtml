@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Insertar Personal</title
+        <title> Insertar Personal</title>
     </h:head>
     <h:body>
         <h1 style="margin-top:0">Registrar Personal</h1>
@@ -30,10 +30,7 @@
                 <p:outputLabel value="DNI"/><p:inputText value="#{personalCon.personal.dniPer}" maxlength="8">
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
-                
-                <p:outputLabel for="button" value="Fecha de matricula:" /> 
-                <p:calendar id="button" value="#{personalCon.personal.fdnPer}" pattern="dd/MM/yyyy"/>
-                
+                                                
                 <p:outputLabel value="Sexo"/>
                 <p:selectOneRadio id="Sexo" value="#{personalCon.personal.sexPer}" >
                     <f:selectItem itemLabel="M" itemValue="M" />
@@ -42,12 +39,12 @@
 
                 <p:outputLabel value="Correo electronico"/><p:inputText value="#{personalCon.personal.corPer}" maxlength="50"/>
 
-                <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="8">
+                <p:outputLabel value="Celular"/><p:inputText value="#{personalCon.personal.celPer}" maxlength="9">
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
 
                 
-                </p:inputText>
+                
             </p:panelGrid>
             <p:commandButton value="Registrar" actionListener="#{personalCon.registrar()}"/>
         </h:form>
