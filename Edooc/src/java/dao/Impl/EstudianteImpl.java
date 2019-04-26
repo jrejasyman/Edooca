@@ -16,7 +16,7 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
         String INSERT = "INSERT INTO MAESTRA.ESTUDIANTE"
                 + "(IDEST, NOMEST, APEEST, SEXEST, CELEST, DNIEST, PAREST, COREST, UBIGEO_IDUBI)"
                 + " values (?,?,?,?,?,?,?,?,?)";
-        try {            
+        try {
             PreparedStatement ps = this.getConectar().prepareStatement(INSERT);
             ps.setInt(1, estudiante.getIdEstu());
             ps.setString(2, estudiante.getNomEstu());
@@ -82,10 +82,10 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
     @Override
     public List<Estudiante> listarEst() throws Exception {
         List<Estudiante> listado;
-        ResultSet rs;        
+        ResultSet rs;
         try {
             Conexion();
-            String sql = "SELECT * FROM MAESTRA.ESTUDIANTE";
+            String sql = "select idest, nomest, APEEST,SEXEST,CELEST,DNIEST, PAREST,COREST,UBIGEO_IDUBI, concat(MAESTRA.UBIGEO.DISUBI,' ',MAESTRA.UBIGEO.PROUBI,' ',MAESTRA.UBIGEO.DEPUBI) as nombreUbigeo from maestra.ESTUDIANTE inner join MAESTRA.UBIGEO on maestra.ESTUDIANTE.UBIGEO_IDUBI = MAESTRA.UBIGEO.IDUBI";
             listado = new ArrayList();
             PreparedStatement ps = this.getConectar().prepareCall(sql);
             rs = ps.executeQuery();
@@ -99,9 +99,9 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
                 estu.setDniEstu(rs.getString("DNIEST"));
                 estu.setParEstu(rs.getString("PAREST"));
                 estu.setCorEstu(rs.getString("COREST"));
-                estu.setUbiEstu(rs.getString("UBIGEO_IDUBI"));
+                estu.setNomubigeo(rs.getString("nombreUbigeo"));
                 listado.add(estu);
-            }            
+            }
         } catch (SQLException e) {
             throw e;
 

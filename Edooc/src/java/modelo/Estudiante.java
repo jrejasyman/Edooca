@@ -15,5 +15,10 @@ public class Estudiante {
     private String ubiEstu;
     
     
+    private String nomubigeo;
+    
+    
+    
+    
     
 }
