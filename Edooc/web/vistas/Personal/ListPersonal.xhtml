@@ -94,9 +94,10 @@
 
                 </p:panelGrid>
 
-                <p:commandButton value="Actualizar" actionListener="#{personalCon.modificar()}"
+                <p:commandButton value="Actualizar" 
+                                 actionListener="#{personalCon.modificar()}"
                                  update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
-                    <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                    <p:confirm header="Confirmación" message="¿Guardar Cambios?" icon="ui-icon-alert"/>
                     <p:tooltip trackMouse="true"/>
                 </p:commandButton>
 
