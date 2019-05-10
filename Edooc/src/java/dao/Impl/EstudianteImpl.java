@@ -5,28 +5,31 @@ import dao.IEstudiante;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Estudiante;
 
 public class EstudianteImpl extends Conexion implements IEstudiante {
 
+    
+    Format fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
+    
     @Override
     public void registrar(Estudiante estudiante) throws Exception {
         String INSERT = "INSERT INTO MAESTRA.ESTUDIANTE"
-                + "(IDEST, NOMEST, APEEST, SEXEST, CELEST, DNIEST, PAREST, COREST, UBIGEO_IDUBI)"
-                + " values (?,?,?,?,?,?,?,?,?)";
+                + "( NOMEST, APEEST, FECHNAC , DNIEST, PAREST, COREST, IDUBI)"
+                + " values (?,?,?,?,?,?,?)";
         try {
-            PreparedStatement ps = this.getConectar().prepareStatement(INSERT);
-            ps.setInt(1, estudiante.getIdEstu());
-            ps.setString(2, estudiante.getNomEstu());
-            ps.setString(3, estudiante.getApeEstu());
-            ps.setString(4, estudiante.getSexEstu());
-            ps.setString(5, estudiante.getCelEstu());
-            ps.setString(6, estudiante.getDniEstu());
-            ps.setString(7, estudiante.getParEstu());
-            ps.setString(8, estudiante.getCorEstu());
-            ps.setString(9, estudiante.getUbiEstu());
+            PreparedStatement ps = this.getConectar().prepareStatement(INSERT);           
+            ps.setString(1, estudiante.getNomEstu());
+            ps.setString(2, estudiante.getApeEstu());
+            ps.setString(3, estudiante.getDateEstu());            
+            ps.setString(4, estudiante.getDniEstu());
+            ps.setString(5, estudiante.getParEstu());
+            ps.setString(6, estudiante.getCorEstu());
+            ps.setString(7, estudiante.getUbiEstu());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -39,19 +42,18 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
 
     @Override
     public void modificar(Estudiante estudiante) throws Exception {
-        String sql = "UPDATE MAESTRA.ESTUDIANTE SET NOMEST=?, APEEST=?, SEXEST=?, CELEST=?, DNIEST=?, PAREST=?, COREST=?, UBIGEO_IDUBI=? WHERE IDEST=?";
+        String sql = "UPDATE MAESTRA.ESTUDIANTE SET NOMEST=?, APEEST=?, FECHNAC=?,  DNIEST=?, PAREST=?, COREST=?, IDUBI=? WHERE IDEST=?";
         try {
             this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
             ps.setString(1, estudiante.getNomEstu());
             ps.setString(2, estudiante.getApeEstu());
-            ps.setString(3, estudiante.getSexEstu());
-            ps.setString(4, estudiante.getCelEstu());
-            ps.setString(5, estudiante.getDniEstu());
-            ps.setString(6, estudiante.getParEstu());
-            ps.setString(7, estudiante.getCorEstu());
-            ps.setString(8, estudiante.getUbiEstu());
-            ps.setInt(9, estudiante.getIdEstu());
+            ps.setString(3, estudiante.getDateEstu());            
+            ps.setString(4, estudiante.getDniEstu());
+            ps.setString(5, estudiante.getParEstu());
+            ps.setString(6, estudiante.getCorEstu());
+            ps.setString(7, estudiante.getUbiEstu());
+            ps.setInt(8, estudiante.getIdEstu());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -85,17 +87,16 @@ public class EstudianteImpl extends Conexion implements IEstudiante {
         ResultSet rs;
         try {
             Conexion();
-            String sql = "select idest, nomest, APEEST,SEXEST,CELEST,DNIEST, PAREST,COREST,UBIGEO_IDUBI, concat(MAESTRA.UBIGEO.DISUBI,' ',MAESTRA.UBIGEO.PROUBI,' ',MAESTRA.UBIGEO.DEPUBI) as nombreUbigeo from maestra.ESTUDIANTE inner join MAESTRA.UBIGEO on maestra.ESTUDIANTE.UBIGEO_IDUBI = MAESTRA.UBIGEO.IDUBI";
+            String sql = "select idest, nomest, APEEST, Convert(date, FECHNAC, 105) as Fecha, DNIEST, PAREST,COREST,IDUBI, concat(MAESTRA.UBIGEO.DISUBI,' ',MAESTRA.UBIGEO.PROUBI,' ',MAESTRA.UBIGEO.DEPUBI) as nombreUbigeo from maestra.ESTUDIANTE inner join MAESTRA.UBIGEO on maestra.ESTUDIANTE.IDUBI = MAESTRA.UBIGEO.IDUBI";
             listado = new ArrayList();
             PreparedStatement ps = this.getConectar().prepareCall(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Estudiante estu = new Estudiante();
-                estu.setIdEstu(rs.getInt("IDEST"));
+                
                 estu.setNomEstu(rs.getString("NOMEST"));
                 estu.setApeEstu(rs.getString("APEEST"));
-                estu.setSexEstu(rs.getString("SEXEST"));
-                estu.setCelEstu(rs.getString("CELEST"));
+                estu.setDateEstu(rs.getString("FECHNAC"));                
                 estu.setDniEstu(rs.getString("DNIEST"));
                 estu.setParEstu(rs.getString("PAREST"));
                 estu.setCorEstu(rs.getString("COREST"));

@@ -1,13 +1,13 @@
 package modelo;
 
-import lombok.Data;
+import java.sql.Date;
 
-@Data
+
 public class Estudiante {
     private int idEstu;
     private String nomEstu;
     private String apeEstu;
-    private String sexEstu;
+    private String dateEstu;    
     private String celEstu;
     private String dniEstu;
     private String parEstu;
@@ -16,6 +16,91 @@ public class Estudiante {
     
     
     private String nomubigeo;
+
+    public String getDateEstu() {
+        return dateEstu;
+    }
+
+    public void setDateEstu(String dateEstu) {
+        this.dateEstu = dateEstu;
+    }
+
+    
+    
+    
+    public int getIdEstu() {
+        return idEstu;
+    }
+
+    public void setIdEstu(int idEstu) {
+        this.idEstu = idEstu;
+    }
+
+    public String getNomEstu() {
+        return nomEstu;
+    }
+
+    public void setNomEstu(String nomEstu) {
+        this.nomEstu = nomEstu;
+    }
+
+    public String getApeEstu() {
+        return apeEstu;
+    }
+
+    public void setApeEstu(String apeEstu) {
+        this.apeEstu = apeEstu;
+    }
+
+   
+
+    public String getCelEstu() {
+        return celEstu;
+    }
+
+    public void setCelEstu(String celEstu) {
+        this.celEstu = celEstu;
+    }
+
+    public String getDniEstu() {
+        return dniEstu;
+    }
+
+    public void setDniEstu(String dniEstu) {
+        this.dniEstu = dniEstu;
+    }
+
+    public String getParEstu() {
+        return parEstu;
+    }
+
+    public void setParEstu(String parEstu) {
+        this.parEstu = parEstu;
+    }
+
+    public String getCorEstu() {
+        return corEstu;
+    }
+
+    public void setCorEstu(String corEstu) {
+        this.corEstu = corEstu;
+    }
+
+    public String getUbiEstu() {
+        return ubiEstu;
+    }
+
+    public void setUbiEstu(String ubiEstu) {
+        this.ubiEstu = ubiEstu;
+    }
+
+    public String getNomubigeo() {
+        return nomubigeo;
+    }
+
+    public void setNomubigeo(String nomubigeo) {
+        this.nomubigeo = nomubigeo;
+    }
     
     
     

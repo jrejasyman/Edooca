@@ -14,16 +14,16 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
 
     @Override
     public void registrar(Apoderado apoderado) throws Exception {
-        String sql = "insert into MAESTRA.APODERADO (IDAPO,NOMAPO,APEAPO,OCUAPO,DIRAPO,SEXAPO,DNIAPO,UBIGEO_IDUBI)"
-                + "values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into MAESTRA.APODERADO ( NOMAPO, APEAPO, OCUAPO, DIRAPO, SEXAPO, CELAPO, DNIAPO, IDUBI)"
+                + "values(? , ? , ? , ? , ? , ? , ? , ?)";
         try {
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
-            ps.setInt(1, apoderado.getIdApo());
-            ps.setString(2, apoderado.getNomApo());
-            ps.setString(3, apoderado.getApeApo());
-            ps.setString(4, apoderado.getOcuApo());
-            ps.setString(5, apoderado.getDirApo());
-            ps.setString(6, apoderado.getSexApo());
+            ps.setString(1, apoderado.getNomApo());
+            ps.setString(2, apoderado.getApeApo());
+            ps.setString(3, apoderado.getOcuApo());
+            ps.setString(4, apoderado.getDirApo());
+            ps.setString(5, apoderado.getSexApo());
+            ps.setString(6, apoderado.getCelApo());
             ps.setString(7, apoderado.getDniApo());
             ps.setString(8, apoderado.getUbiApo());
             ps.executeUpdate();
@@ -38,7 +38,7 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
 
     @Override
     public void modificar(Apoderado apoderado) throws Exception {
-        String sql = "UPDATE MAESTRA.APODERADO SET NOMAPO=?, APEAPO=?, OCUAPO=?, DIRAPO=?, SEXAPO=?, DNIAPO=?, UBIGEO_IDUBI=? WHERE IDAPO=?";
+        String sql = "UPDATE MAESTRA.APODERADO SET NOMAPO=?, APEAPO=?, OCUAPO=?, DIRAPO=?, SEXAPO=?,CELAPO=?, DNIAPO=?, IDUBI=? WHERE IDAPO=?";
         try {
             this.Conexion();
             PreparedStatement ps = this.getConectar().prepareStatement(sql);
@@ -47,9 +47,10 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
             ps.setString(3, apoderado.getOcuApo());
             ps.setString(4, apoderado.getDirApo());
             ps.setString(5, apoderado.getSexApo());
-            ps.setString(6, apoderado.getDniApo());
-            ps.setString(7, apoderado.getUbiApo());
-            ps.setInt(8, apoderado.getIdApo());
+            ps.setString(6, apoderado.getCelApo());
+            ps.setString(7, apoderado.getDniApo());
+            ps.setString(8, apoderado.getUbiApo());
+            ps.setInt(9, apoderado.getIdApo());
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
@@ -97,8 +98,9 @@ public class ApoderadoImpl extends Conexion implements IApoderado {
                 apo.setOcuApo(rs.getString("OCUAPO"));
                 apo.setDirApo(rs.getString("DIRAPO"));
                 apo.setSexApo(rs.getString("SEXAPO"));
+                apo.setCelApo(rs.getString("CELAPO"));
                 apo.setDniApo(rs.getString("DNIAPO"));
-                apo.setUbiApo(rs.getString("UBIGEO_IDUBI"));
+                apo.setUbiApo(rs.getString("IDUBI"));
                 listado.add(apo);
             }
         } catch (Exception e) {
