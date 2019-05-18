@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template/Template.xhtml">
+
+            <ui:define name="content">
+                <p:growl autoUpdate="true" showDetail="true" id="messages" />
+                <h:form id="form">
+                    <p:dataTable value="#{personalCon.listadoPer}" var="lista" id="dtTable"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 paginator="true" rows="10" style="margin-bottom:20px">
+
+                        <p:column headerText="Id" >
+                            <h:outputText value="#{lista.idCur}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre" filterBy="#{lista.nomCur}" filterMatchMode="contains" >
+                            <h:outputText value="#{lista.nomCur}"/>
+                        </p:column>
+                        <p:column><!--modificar-->
+                            <p:commandButton icon="ui-icon-pencil"
+                                             oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
+                                <f:setPropertyActionListener value="#{lista}" target="#{cursoCon.curso}"/>
+                            </p:commandButton>   
+                        </p:column> 
+
+                        <p:column> <!-- eliminar-->
+                            <p:commandButton icon="ui-icon-circle-close" update=":messages"
+                                             actionListener="#{cursoCon.eliminar(lista)}">
+                                <p:confirm header="Confirmacion" message="¿Desea eliminar?" icon="ui-icon-alert"/>
+                                <p:tooltip trackMouse="true"/>                        
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                            </p:confirmDialog>                                                
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
+                    <h:form>
+                        <p:panelGrid columns="4">
+                            <p:outputLabel value="Codigo"/><p:inputText value="#{cursoCon.curso.idCur}" maxlength="50"/>
+                            <p:outputLabel value="Nombre"/><p:inputText value="#{cursoCon.curso.nomCur}" maxlength="80"/>
+                        </p:panelGrid>
+
+                        <p:commandButton value="Actualizar" actionListener="#{cursoCon.modificar()}"
+                                         update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
+                            <p:confirm header="Confirmacion" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
+                            <p:tooltip trackMouse="true"/>
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                        <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
