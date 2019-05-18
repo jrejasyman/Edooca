@@ -16,9 +16,10 @@ import modelo.Estudiante;
 @SessionScoped
 public class EstudianteCon implements Serializable {
     
-    private Estudiante estudiante;
-    private EstudianteImpl dao;
+    private Estudiante estudiante = new Estudiante();
+//    private EstudianteImpl dao;
     private List<Estudiante> listadoEst;
+    private String accionEst;
     
     
      @PostConstruct
@@ -26,23 +27,39 @@ public class EstudianteCon implements Serializable {
          try {
              listar();
          } catch (Exception e) {
-             System.out.println("error init "+e.getMessage());
          }
          
     }    
+     
+     public void operarEstudiante() throws Exception {
+        switch (accionEst) {
+            case "Registrar":
+                registrar();
+                break;
+            case "Modificar":
+                modificar();
+                break;
+        }
+    }
     
+     public void limpiarEstudiante(){
+         estudiante = new Estudiante();
+     }
     public EstudianteCon() {
-        dao = new EstudianteImpl();
+//        dao = new EstudianteImpl();
         estudiante = new Estudiante();
         listadoEst = new ArrayList();
+        
     }
     
     public void registrar ()throws Exception{
+        EstudianteImpl Conexion;
         try {
-            dao= new EstudianteImpl();
-            estudiante.setUbiEstu(dao.obtenerCodigoUbigeo(estudiante.getUbiEstu()));
-            dao.registrar(estudiante);
+            Conexion= new EstudianteImpl();
+            estudiante.setUbiEstu(Conexion.obtenerCodigoUbigeo(estudiante.getNomubigeo()));
+            Conexion.registrar(estudiante);
             listar();
+            limpiarEstudiante();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Completado"));                    
         } catch (Exception e) {
@@ -50,28 +67,43 @@ public class EstudianteCon implements Serializable {
         }
     }
     public void modificar() throws Exception{
+         EstudianteImpl Conexion;
         try {
-            dao = new EstudianteImpl();
-            estudiante.setUbiEstu(dao.obtenerCodigoUbigeo(estudiante.getNomubigeo()));
-            dao.modificar(estudiante);
+            Conexion = new EstudianteImpl();
+            estudiante.setUbiEstu(Conexion.obtenerCodigoUbigeo(estudiante.getNomubigeo()));
+            Conexion.modificar(estudiante);
             listar();
+            limpiarEstudiante();
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Modificado"));                    
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Estudiante","Modificado"));                    
         } catch (Exception e) {
             throw e;            
         }
     }
     public void eliminar(Estudiante est) throws Exception{
+        EstudianteImpl Conexion;
         try {
-            dao = new EstudianteImpl();
-            dao.eliminar(est);
+            Conexion = new EstudianteImpl();
+            Conexion.eliminar(est);
             listar();
+            limpiarEstudiante();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado","Eliminado..."));                                
         } catch (Exception e) {
             throw e;            
         }
     }
+    public void leerEstudiante(String codigoAlumno) throws Exception {
+        EstudianteImpl Conexion;
+        try {
+            Conexion = new EstudianteImpl();
+            estudiante = Conexion.leerEstudiante(codigoAlumno);
+            accionEst = "Modificar";
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
     public void listar()throws Exception{
         EstudianteImpl Conexion;
         try {
@@ -104,12 +136,20 @@ public class EstudianteCon implements Serializable {
         this.listadoEst = listadoEst;
     }
 
-    public EstudianteImpl getDao() {
-        return dao;
+//    public EstudianteImpl getDao() {
+//        return dao;
+//    }
+//
+//    public void setDao(EstudianteImpl dao) {
+//        this.dao = dao;
+//    }
+//    
+
+    public String getAccionEst() {
+        return accionEst;
     }
 
-    public void setDao(EstudianteImpl dao) {
-        this.dao = dao;
+    public void setAccionEst(String accionEst) {
+        this.accionEst = accionEst;
     }
-    
 }

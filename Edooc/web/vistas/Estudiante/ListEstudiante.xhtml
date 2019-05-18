@@ -10,38 +10,19 @@
         <title>Listar Estudiantes</title>       
     </h:head>
     <h:body>
-        <p:growl autoUpdate="true" showDetail="true"/>
-        <h:form id="formIns">
-            <p:panelGrid columns="4">
-                
-                <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteCon.estudiante.nomEstu}" maxlength="80"/>
-                <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteCon.estudiante.apeEstu}" maxlength="80"/>
-                
-                <p:outputLabel for="button" value="Fecha de nacimiento"/> 
-                <p:inputMask id="button" value="#{estudianteCon.estudiante.dateEstu}"  mask="99/99/9999"  required="true" requiredMessage="Ingresar la fecha"  />
-                
-                
-                <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
-                <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
-                <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
-                <p:outputLabel value="Ubigeo" for="Ubi"/>
-                <p:autoComplete id="Ubi" maxResults="5" value="#{estudianteCon.estudiante.ubiEstu}" completeMethod="#{estudianteCon.completeText}"/>
-            </p:panelGrid>
-            <p:commandButton value="Registrar" actionListener="#{estudianteCon.registrar()}"/>
-        </h:form>
-        
         <p:growl autoUpdate="true" showDetail="true" id="messages" />
         <h:form id="form">
             <p:dataTable value="#{estudianteCon.listadoEst}" var="lista" id="dtTable"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                         paginator="true" rows="10" style="margin-bottom:80px">
-
+                         paginator="true" rows="10" style="margin-bottom:80px" widgetVar="wdlaData">
+                <f:facet name="header">
+                    <p:commandButton value="Registrar" 
+                                     oncomplete="PF('wdlgDatos').show();" 
+                                     update=":dlgDatos" 
+                                     actionListener="#{estudianteCon.setAccionEst('Registrar')}"/>
+                </f:facet>
                 <p:column style="width: 16px" >
                     <p:rowToggler/> 
-                </p:column>
-                
-                <p:column headerText="Id" >
-                    <h:outputText value="#{lista.idEstu}"/>
                 </p:column>
 
                 <p:column headerText="Nombre" filterBy="#{lista.nomEstu}" filterMatchMode="contains" >
@@ -71,32 +52,28 @@
                 <p:column headerText="Ubigeo">
                     <h:outputText value="#{lista.nomubigeo}"/>
                 </p:column>
-                
-                <p:rowExpansion>
-                    <p:panelGrid columns="2" columnClasses="label,value" style="width:450px">
-                        <h:outputText value="Apoderado:" />
-                        <h:outputText value="#{lista.nomApo}"/>
-                    </p:panelGrid>
-                </p:rowExpansion>
-                
-            
+
+
+
                 <p:column><!-- modifica papu-->
-                    <p:commandButton icon="ui-icon-pencil"
-                                     oncomplete="PF('wdlgDatos').show();" update=":dlgDatos" >
-                        <f:setPropertyActionListener value="#{lista}" target="#{estudianteCon.estudiante}"/>
-                    </p:commandButton>   
+                    <p:commandButton icon="ui-icon-pencil" 
+                                     actionListener="#{estudianteCon.leerEstudiante(lista.idEstu)}" 
+                                     oncomplete="PF('wdlgDatos').show();"
+                                     update=":dlgDatos"/><br/>
                 </p:column> 
 
                 <p:column> <!--vamo eliminar-->
-                    <p:commandButton icon="ui-icon-circle-close" update=":messages :form"
-                                     actionListener="#{estudianteCon.eliminar(lista)}">
-                        <p:confirm header="Confirmacion" message="¿Deseas eliminar?" icon="ui-icon-alert"/>
-                        <p:tooltip trackMouse="true"/>                        
+                    <p:commandButton icon="ui-icon-circle-close" 
+                                     actionListener="#{estudianteCon.eliminar(lista)}" 
+                                     update="dtTable">
+                        <p:confirm header="Confirmation" message="¿Deseas Eliminar Alumno? " icon="ui-icon-alert" />
                     </p:commandButton>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                    </p:confirmDialog>                                                
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
+                                         icon="ui-icon-close" />
+                    </p:confirmDialog>                                             
                 </p:column>
 
                 <f:facet name="footer">
@@ -105,32 +82,26 @@
             </p:dataTable>
         </h:form>
 
-        <p:dialog id="dlgDatos" widgetVar="wdlgDatos">
+        <p:dialog showEffect="explode" modal="true" 
+                  hideEffect="explode" 
+                  header="Actualizar Alumnos" id="dlgDatos" widgetVar="wdlgDatos">
             <h:form>
                 <p:panelGrid columns="4">
-                    <p:outputLabel value="Codigo"/><p:inputText value="#{estudianteCon.estudiante.idEstu}" maxlength="50"/>
                     <p:outputLabel value="Nombre"/><p:inputText value="#{estudianteCon.estudiante.nomEstu}" maxlength="80"/>
                     <p:outputLabel value="Apellido"/><p:inputText value="#{estudianteCon.estudiante.apeEstu}" maxlength="80"/>
-                    
-                    <p:outputLabel value="Celular"/><p:inputText value="#{estudianteCon.estudiante.celEstu}" maxlength="9"/>
+                    <p:outputLabel value="Fecha de Nacimiento"/>
+                    <p:inputMask id="button" value="#{estudianteCon.estudiante.dateEstu}"  mask="99/99/9999"  required="true" requiredMessage="Ingresar la fecha"  />
                     <p:outputLabel value="DNI"/><p:inputText value="#{estudianteCon.estudiante.dniEstu}" maxlength="8"/>
                     <p:outputLabel value="Parentesco Familiar"/><p:inputText value="#{estudianteCon.estudiante.parEstu}" maxlength="25"/>
                     <p:outputLabel value="Correo electronico"/><p:inputText value="#{estudianteCon.estudiante.corEstu}" maxlength="50"/>
-                    
+
                     <p:outputLabel value="Ubigeo"/> 
-                    <p:inputText value="#{estudianteCon.estudiante.nomubigeo}" />
+                    <p:autoComplete id="Ubi" maxResults="5" value="#{estudianteCon.estudiante.nomubigeo}" completeMethod="#{estudianteCon.completeText}"/>
                 </p:panelGrid>
 
-                <p:commandButton value="Actualizar" actionListener="#{estudianteCon.modificar()}"
-                                 update=":form :messages" oncomplete="PF('wdlgDatos').hide();">
-                    <p:confirm header="Confirmacion" message="¿Deseas Modificar?" icon="ui-icon-alert"/>
-                    <p:tooltip trackMouse="true"/>
-                </p:commandButton>
-
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                </p:confirmDialog>
+                <p:commandButton value="#{estudianteCon.accionEst}" 
+                                 actionListener="#{estudianteCon.operarEstudiante()}" 
+                                 update="dlgDatos :form:dtTable"/>
                 <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
             </h:form>
         </p:dialog>

@@ -1,10 +1,7 @@
 package modelo;
 
-import java.sql.Date;
-
-
 public class Estudiante {
-    private int idEstu;
+    private String idEstu;
     private String nomEstu;
     private String apeEstu;
     private String dateEstu;    
@@ -25,14 +22,11 @@ public class Estudiante {
         this.dateEstu = dateEstu;
     }
 
-    
-    
-    
-    public int getIdEstu() {
+    public String getIdEstu() {
         return idEstu;
     }
 
-    public void setIdEstu(int idEstu) {
+    public void setIdEstu(String idEstu) {
         this.idEstu = idEstu;
     }
 
